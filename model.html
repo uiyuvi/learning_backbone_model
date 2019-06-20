@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="description" content="Backbone Exercise 1 : Model" />
+    <meta charset=utf-8 />
+    <title>Welcome to JS Bin</title>
+    <script src="js/jquery.js"></script>
+    <script src="js/sinon.js"></script>
+    <script src="js/fakeserver.js"></script>
+    <script src="js/underscore.js"></script>
+    <script src="js/backbone.js"></script>
+</head>
+
+<body>
+    <pre>
+        /**
+        *    Backbone.Model exercises
+        *
+        */
+
+        // ******************************************
+        // Example
+        //
+        // - Create a new, empty backbone model
+        // ******************************************
+
+        // ******************************************
+        // Ecercise 1
+        //
+        // - Create a new, empty backbone model
+        // - Set its properties via the constructor:
+        //     - firstName: your first name
+        //     - lastName: your last name
+        // ******************************************
+
+        // ******************************************
+        // Ecercise 2
+        //
+        // - Get your firstName from the model
+        // - Log it to the console
+        // ******************************************
+        // ******************************************
+        // Ecercise 3
+        //
+        // - Change your firstName to another value
+        //   using 'set'.
+        // - Log your firstName to the console
+        // - Verify the changes.
+        // ******************************************
+
+        // ******************************************
+        // Ecercise 4
+        //
+        // - Add a change handler for firstName on 
+        //   the model
+        // - Ensure that the change handler logs
+        //   the new firstName
+        // - Ensure that the change handler works 
+        //   by setting a new firstName, thus
+        //   triggering it.
+        // ******************************************
+
+        // ******************************************
+        // Ecercise 5
+        //
+        // - Using Backbone.Model.extend, create
+        //   a new constructor called 'Person'.
+        // - Ensure the default attribute values for
+        //   firstName and lastName are your own
+        //   first and last name.
+        // - Construct a new 'Person'. Log the 
+        //   firstName and lastName to the console
+        //   and verify.
+        // ******************************************
+
+        // ******************************************
+        // Ecercise 6
+        //
+        // - Overwrite the 'Person' constructor with
+        //   a new one using Backbone.Model.extend.
+        // - Don't use any default attributes
+        // - Instead, set the 'url' property
+        //   to '/persons/0'
+        // - Create an instance of 'person'
+        // - Call the 'fetch' method and attach
+        //   a 'success' handler to 'fetch'.
+        // - Verify that the 'firstName' of the
+        //   model is 'John', and that the lastName
+        //   is 'Doe'.
+        // ******************************************
+    </pre>
+    <script type="text/javascript">
+        /**
+        *    Backbone.Model exercises
+        *
+        */
+
+        // ******************************************
+        // Example
+        //
+        // - Create a new, empty backbone model
+        // ******************************************
+        var model = new Backbone.Model();
+
+
+        // ******************************************
+        // Ecercise 1
+        //
+        // - Create a new, empty backbone model
+        // - Set its properties via the constructor:
+        //     - firstName: your first name
+        //     - lastName: your last name
+        // ******************************************
+        model = new Backbone.Model({ firstName: 'John', lastName: 'Doe' });
+        console.info('E1: ' + JSON.stringify(model));
+
+        // ******************************************
+        // Ecercise 2
+        //
+        // - Get your firstName from the model
+        // - Log it to the console
+        // ******************************************
+        console.info('E2: firstName is : ' + model.get('firstName'));
+
+        // ******************************************
+        // Ecercise 3
+        //
+        // - Change your firstName to another value
+        //   using 'set'.
+        // - Log your firstName to the console
+        // - Verify the changes.
+        // ******************************************
+        model.set('firstName', 'Jim');
+        console.info('E3: firstName changed to : ' + model.get('firstName'));
+
+        // ******************************************
+        // Ecercise 4
+        //
+        // - Add a change handler for firstName on 
+        //   the model
+        // - Ensure that the change handler logs
+        //   the new firstName
+        // - Ensure that the change handler works 
+        //   by setting a new firstName, thus
+        //   triggering it.
+        // ******************************************
+        model.on('change:firstName', function () {
+            console.info('E4: The name has been changed to : ' + model.get('firstName'));
+        });
+        model.set('firstName', 'James');
+
+        // ******************************************
+        // Ecercise 5
+        //
+        // - Using Backbone.Model.extend, create
+        //   a new constructor called 'Person'.
+        // - Ensure the default attribute values for
+        //   firstName and lastName are your own
+        //   first and last name.
+        // - Construct a new 'Person'. Log the 
+        //   firstName and lastName to the console
+        //   and verify.
+        // ******************************************
+        var Person = Backbone.Model.extend({
+            defaults: {
+                firstName: 'John',
+                lastName: 'Doe'
+            }
+        });
+        var person = new Person();
+        console.info('E5: Person created with defaults : '+ JSON.stringify(person) + ' ' + person.get('firstName') + ' ' + person.get('lastName'));
+
+        // ******************************************
+        // Ecercise 6
+        //
+        // - Overwrite the 'Person' constructor with
+        //   a new one using Backbone.Model.extend.
+        // - Don't use any default attributes
+        // - Instead, set the 'url' property
+        //   to '/persons/0'
+        // - Create an instance of 'person'
+        // - Call the 'fetch' method and attach
+        //   a 'success' handler to 'fetch'.
+        // - Verify that the 'firstName' of the
+        //   model is 'John', and that the lastName
+        //   is 'Doe'.
+        // ******************************************
+        Person = Backbone.Model.extend({
+            url: '/persons/0'
+        });
+        person = new Person();
+        person.fetch().success(function () {
+            console.info('E6: fetched person details : ' + person.get('firstName') + ' ' + person.get('lastName'));
+        });
+
+    </script>
+
+</body>
+
+</html>
